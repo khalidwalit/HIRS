@@ -1,0 +1,5 @@
+/*  Input type file style */
+ 
+    .fileinput_textbox {font-size:45px;position:absolute;right:0px;top:0px;cursor:pointer;
+                     opacity:0;filter:alpha(opacity=0);-ms-filter:"alpha(opacity=0)";-khtml-opacity:0;-moz-opacity:0; }
+ 

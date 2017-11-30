@@ -1,0 +1,59 @@
+// Block definition (there may be more than one block per file)
+FUNCTION_BLOCK jobclass
+
+// Define input variables
+VAR_INPUT
+	jobclass : REAL;
+	
+END_VAR
+
+// Define output variable
+VAR_OUTPUT
+    jobclassOutput : REAL;
+END_VAR
+
+// Fuzzify input variable 'service'
+FUZZIFY jobclass
+    TERM jobclass1 := (0, 1) (1, 1) (3, 0) ;
+    TERM jobclass2 := (2, 0) (3.5, 1) (5, 0);
+    TERM jobclass3 := (4, 0) (5.5, 1) (7, 0);
+    TERM jobclass4 := (6, 0) (7.5, 1) (9, 1);
+END_FUZZIFY
+
+// Fuzzify input variable 'service'
+
+
+// Defzzzify output variable 'tip'
+DEFUZZIFY jobclassOutput
+    TERM jobclass1 := (0, 1) (1, 1) (3, 0) ;
+    TERM jobclass2 := (2, 0) (3.5, 1) (5, 0);
+    TERM jobclass3 := (4, 0) (5.5, 1) (7, 0);
+    TERM jobclass4 := (6, 0) (7.5, 1) (9, 1);
+    // Use 'Center Of Gravity' defuzzification method
+    METHOD : COG;
+    // Default value is 0 (if no rule activates defuzzifier)
+    DEFAULT := 0;
+END_DEFUZZIFY
+
+RULEBLOCK No1
+    // Use 'min' for 'and' (also implicit use 'max'
+    // for 'or' to fulfill DeMorgan's Law)
+    AND : MIN;
+    // Use 'min' activation method
+    ACT : MIN;
+    // Use 'max' accumulation method
+    ACCU : MAX;
+
+	RULE 1 : IF jobclass IS jobclass1
+				THEN jobclassOutput IS jobclass1;
+	RULE 2 : IF jobclass IS jobclass2 
+				THEN jobclassOutput IS jobclass2;
+	RULE 3 : IF jobclass IS jobclass3 
+				THEN jobclassOutput IS jobclass3;
+	RULE 4 : IF jobclass IS jobclass4
+				THEN jobclassOutput IS jobclass4;
+				
+	
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

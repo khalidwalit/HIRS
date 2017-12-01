@@ -36,6 +36,8 @@ public class createRule extends HttpServlet{
 			throws ServletException, IOException {
 
 	}
+	
+	//oooo
 
 	private static String FILENAME = null;
 	private static final String UPLOAD_DIRECTORY = "upload" ;

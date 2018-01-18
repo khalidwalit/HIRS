@@ -116,18 +116,13 @@ public class createRule extends HttpServlet{
 				}
 			}
 		}
-		System.out.println(filePath);
 		FILENAME = filePath;
-		//getServletContext().getRequestDispatcher("/result.jsp").forward(request, response);
-
-
 
 		BufferedReader br = null;
 		FileReader fr = null;
 
 		RulesDA rda = new RulesDA();
-		//Rules r = new Rules();
-
+		
 		try {
 
 			fr = new FileReader(FILENAME);
@@ -140,47 +135,22 @@ public class createRule extends HttpServlet{
 			while ((sCurrentLine = br.readLine()) != null) {
 
 				rda.createRule(sCurrentLine);
-
-
-				//System.out.println(sCurrentLine);
-				//String[] parts = sCurrentLine.split(";");
-				//int size = parts.length;
-				//System.out.println("Line "+sCurrentLine);
-				//for(int i=0;i<size;i++){
-
-
-				//System.out.println(parts[i]);
-
-				//	}
-
-
 			}
 
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		} finally {
-
 			try {
-
 				if (br != null){
 					br.close();
-					System.out.println("close br");
 				}
 				if	(fr != null){
 					fr.close();
-					System.out.println("close fr");
 				}
-
 			} catch (IOException ex) {
-
 				ex.printStackTrace();
-
 			}
-
 		}
-
 		rd = request.getRequestDispatcher("/generateFuzzy");
 		rd.forward(request, response);
 

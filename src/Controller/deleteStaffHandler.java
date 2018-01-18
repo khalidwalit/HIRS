@@ -22,9 +22,7 @@ import Model.Staff;
 public class deleteStaffHandler extends HttpServlet{
 
 	public static final long serialVersionUID = 1L;
-
-
-
+	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -38,19 +36,10 @@ public class deleteStaffHandler extends HttpServlet{
 		RequestDispatcher rd = null;
 		StaffDA sda = new StaffDA();
 		String staffID = request.getParameter("staffID");
-		
-		System.out.println("masuk ke x" +staffID);
-		
 		sda.deleteStaff(staffID);
 		request.setAttribute("staff", StaffDA.getAllStaff());
-
-
-
 		rd = request.getRequestDispatcher("/adminIndex.jsp");
 		rd.forward(request, response);
-		
-
 	}
-
 }
 

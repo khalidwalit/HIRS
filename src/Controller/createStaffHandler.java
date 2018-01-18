@@ -24,9 +24,7 @@ import Model.Staff;
 public class createStaffHandler extends HttpServlet{
 
 	public static final long serialVersionUID = 1L;
-
-
-
+	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -40,8 +38,6 @@ public class createStaffHandler extends HttpServlet{
 		RequestDispatcher rd = null;
 		Staff st = new Staff();
 		HttpSession sess = request.getSession(false);
-		System.out.println(request.getParameter("username"));
-
 		st.setStaffID(request.getParameter("username"));
 		st.setStaffName(request.getParameter("name"));
 		st.setStaffEmail(request.getParameter("email"));
@@ -49,21 +45,10 @@ public class createStaffHandler extends HttpServlet{
 		st.setStaffPassword(request.getParameter("password"));
 		st.setStaffPhoneNo(request.getParameter("phone"));
 		String adminID = (String)sess.getAttribute("username");
-		//String adminID = "3001";
-		
-		System.out.println("createStaff"+adminID);
-
 		StaffDA sda = new StaffDA();
-		
-		System.out.println(st.getStaffID());
 		sda.registerStaff(st, adminID);
-
-
 		rd = request.getRequestDispatcher("/manageStaff");
 		rd.forward(request, response);
-		
-
 	}
-
 }
 

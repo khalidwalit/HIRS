@@ -182,81 +182,7 @@ public class generateRecommendPackage extends HttpServlet {
 			gend = 3;
 		}
 
-		/*
-		int monthlyPayment = 200;
-		double illness=4.7;
-		int job = 7;
-		double smokestat = 4;
-		int quit = 0;
-		int gend=1;
-		 */
-		/*
-		if(c.getClientIllness().equals("yes"))
-		{
-			illness = 6;
-		}else{
-			illness = 14;			
-		}
-
-		if(c.getJobclass().equals("JOB CLASS 1"))
-		{
-			job = 1;
-		}else if(c.getJobclass().equals("JOB CLASS 2"))
-		{
-			job = 3;
-		}else if(c.getJobclass().equals("JOB CLASS 3"))
-		{
-			job = 5;
-		}else if(c.getJobclass().equals("JOB CLASS 4"))
-		{
-			job = 7;
-		}
-
-		if(c.getMonthlypayment().equals("100 - 300"))
-		{
-			monthlyPayment = 200;
-		}else if(c.getMonthlypayment().equals("301 - 500"))
-		{
-			monthlyPayment = 400;
-		}else if(c.getMonthlypayment().equals("501 - 700"))
-		{
-			monthlyPayment = 600;
-		}else if(c.getMonthlypayment().equals("701 - 900"))
-		{
-			monthlyPayment = 800;
-		}
-
-		if(c.getSmokingStatus().equals("Yes"))
-		{
-			smokestat = 1;
-		}else if(c.getSmokingStatus().equals("No"))
-		{
-			smokestat = 4;
-		}else if(c.getSmokingStatus().equals("Quit"))
-		{
-			smokestat = 7;
-			if(c.getQuitDuration().equals("Below 1 year"))
-			{
-				quit = 1;
-			}else if(c.getQuitDuration().equals("1 year to 2 years"))
-			{
-				quit = 2;
-			}else if(c.getQuitDuration().equals("2 years to 3 years"))
-			{
-				quit = 3;
-			}else if(c.getQuitDuration().equals("3 years and above"))
-			{
-				quit = 4;
-			}
-		}
-		if(c.getClientGender().equals("Male"))
-		{
-			gend = 1;
-		}else
-		{
-			gend = 3;
-		}
-		 */
+		
 		RulesDA rda = new RulesDA();
 
 		List<Rules> RulesList = new ArrayList<>();
@@ -276,17 +202,14 @@ public class generateRecommendPackage extends HttpServlet {
 				{
 					if(c.getQuitDuration().equals(rule.getQuit()))
 					{
-						System.out.println("rules test NO x null:"+rule.getRuleno());	
 						ruleNo = rule.getRuleno();
 					}
 				}
 				else
 				{
-					System.out.println("rules test NO null:"+rule.getRuleno());
 					ruleNo = rule.getRuleno();
 				}
 			}
-
 		}	
 
 		ClientDA cDa = new ClientDA();
@@ -295,13 +218,9 @@ public class generateRecommendPackage extends HttpServlet {
 		String[] result = new String[3];
 
 		for(int i=0;i<3;i++){
-			System.out.println(monthlyPayment[i]);
 			value[i] = fuzzyRecommendValue(quitStat, age, job, smokestat[i], quit[i], illness[i], gend, monthlyPayment[i]);	
-			//result[i] = String.format("%.2f", value[i]);
 			result[i] = Double.toString(Math.floor(value[i]));
-			System.out.println("Output value :"+result[i]);
 		}
-
 
 		request.setAttribute("RM1", String.format("%.2f",monthlyPayment[0]));
 		request.setAttribute("RM2", String.format("%.2f",monthlyPayment[1]));
@@ -313,17 +232,12 @@ public class generateRecommendPackage extends HttpServlet {
 		request.setAttribute("recommendPackage", PackageDA.getPackageByRule(ruleNo));
 		request.setAttribute("clientInfo", ClientDA.getClientByID(c.getClientID()));
 
-		System.out.println("TEST");
-
 		//generateFuzzy file
-		//request.getRequestDispatcher("/generateFuzzy").forward(request, response);
-		//doGet(request, response);
 		HttpSession sess = request.getSession(false);
 		String name= (String)sess.getAttribute("username");  
 		if(name!=null){
 			request.getRequestDispatcher("/packageRecommend.jsp").forward(request, response);
 		}else{
-			System.out.println("invalid");
 			request.getRequestDispatcher("/recommandPackage.jsp").forward(request, response);
 		}
 
@@ -355,7 +269,6 @@ public class generateRecommendPackage extends HttpServlet {
 			FuzzyEngine.setVariable("age", age+1);
 			FuzzyEngine.setVariable("jobclass", job);
 			FuzzyEngine.setVariable("smokingstatus", smokestat);
-			//FuzzyEngine.setVariable("quitduration", 1);
 			FuzzyEngine.setVariable("illness", illness);
 			FuzzyEngine.setVariable("gender", gend);
 			FuzzyEngine.setVariable("monthlypayment", monthlyPayment);
@@ -364,10 +277,10 @@ public class generateRecommendPackage extends HttpServlet {
 			FuzzyEngine.evaluate();
 
 			//Get Value
-			for(Rule r : FuzzyEngine.getFunctionBlock("Fuzzy").getFuzzyRuleBlock("No1").getRules())
-			{
+			//for(Rule r : FuzzyEngine.getFunctionBlock("Fuzzy").getFuzzyRuleBlock("No1").getRules())
+			//{
 				//System.out.println(r);
-			}	
+			//}	
 
 			//COG
 			value = FuzzyEngine.getVariable("recommend").getValue();
@@ -376,7 +289,6 @@ public class generateRecommendPackage extends HttpServlet {
 
 		else
 		{
-			System.out.println("MEROKOK");
 			//GetFile
 			InputStream fileFuzzy = getServletContext().getResourceAsStream("/WEB-INF/Fuzzy/FuzzySmoke.fcl");
 
@@ -402,17 +314,16 @@ public class generateRecommendPackage extends HttpServlet {
 			FuzzyEngine.evaluate();
 
 			//Get Value
-			for(Rule r : FuzzyEngine.getFunctionBlock("Fuzzy").getFuzzyRuleBlock("No1").getRules())
-			{
+			//for(Rule r : FuzzyEngine.getFunctionBlock("Fuzzy").getFuzzyRuleBlock("No1").getRules())
+			//{
 				//System.out.println(r);
-			}		
+			//}		
 			//COG
 			value = FuzzyEngine.getVariable("recommend").getValue();
 
 		}
 
 		//FuzzyEngine.getVariable("recommend").chartDefuzzifier(true);
-		//System.out.println(FuzzyEngine);
 		return value;
 
 	}

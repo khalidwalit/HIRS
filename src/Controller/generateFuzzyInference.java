@@ -55,10 +55,6 @@ public class generateFuzzyInference extends HttpServlet {
 			absoluteFilePath = "C:" + File.separator + "Users" + File.separator + "Harith" + File.separator + "eclipse-workspace" + File.separator + "HIRS" + File.separator + "WebContent" +File.separator+"WEB-INF"+File.separator+"Fuzzy"+File.separator+""+filename;
 			String absoluteFile = "C:" + File.separator + "Users" + File.separator + "Harith" + File.separator + "eclipse-workspace" + File.separator + "HIRS" + File.separator + "WebContent" +File.separator+"WEB-INF"+File.separator+"Fuzzy"+File.separator+""+fileName;
 
-			//absoluteFilePath = workingDirectory + File.separator + filename;
-			System.out.println("Final filepath : " + absoluteFilePath);
-			System.out.println("Final filepath : " + absoluteFile);
-
 			File file = new File(absoluteFilePath);
 			File file1 = new File(absoluteFile);
 
@@ -68,11 +64,9 @@ public class generateFuzzyInference extends HttpServlet {
 
 			{
 				file.delete();
-				//System.out.println("File is Updated");
 				checkFile = "Fuzzy Engine is updated !";
 			}else {
 				file.createNewFile();
-				//System.out.println("File is created!");
 				checkFile = "Fuzzy Engine is created !";
 			} 
 
@@ -80,11 +74,9 @@ public class generateFuzzyInference extends HttpServlet {
 
 			{
 				file1.delete();
-				System.out.println("File is Updated");
 				checkFile = "Fuzzy Engine is updated !";
 			}else {
 				file1.createNewFile();
-				System.out.println("File is created!");
 				checkFile = "Fuzzy Engine is created !";
 			} 
 
@@ -116,7 +108,6 @@ public class generateFuzzyInference extends HttpServlet {
 			writer1.append("FUZZIFY illness\n");
 			writer1.append(" TERM no := (0, 1) (5, 1)  (7.5, 0) ; \n");
 			writer1.append(" TERM yes := (10, 0)  (12.5, 1) (17.5, 1); \n");
-			//writer1.append(" TERM severe := (19, 0) (25, 1) (31, 1); \n");
 			writer1.append("END_FUZZIFY\n");
 
 			writer1.append("FUZZIFY jobclass\n");
@@ -164,12 +155,6 @@ public class generateFuzzyInference extends HttpServlet {
 			writer1.append("ACT : MIN;\n");
 			writer1.append("ACCU : MAX;\n");
 
-
-			/////
-			////
-			////
-			///
-
 			//Write Content
 			PrintWriter writer = new PrintWriter(file);
 			writer.append("FUNCTION_BLOCK Fuzzy\n");
@@ -198,7 +183,6 @@ public class generateFuzzyInference extends HttpServlet {
 			writer.append("FUZZIFY illness\n");
 			writer.append(" TERM no := (0, 1) (5, 1)  (7.5, 0) ; \n");
 			writer.append(" TERM yes := (10, 0)  (12.5, 1) (17.5, 1); \n");
-			//writer.append(" TERM severe := (19, 0) (25, 1) (31, 1); \n");
 			writer.append("END_FUZZIFY\n");
 
 			writer.append("FUZZIFY jobclass\n");
@@ -307,15 +291,9 @@ public class generateFuzzyInference extends HttpServlet {
 				if(rule.getMonthlypay().equals("701 - 900"))
 					writer1.append("monthlypayment IS veryhigh");
 
-
 				writer1.append(" THEN recommend IS "+rule.getRecommend());
-
-
-
 				writer1.append(";\n");
 
-
-				//XROKOK
 				if(!rule.getSmoke().equals("QUIT"))
 				{
 
@@ -337,10 +315,7 @@ public class generateFuzzyInference extends HttpServlet {
 
 					writer.append(" AND ");
 					writer.append("smokingstatus IS "+rule.getSmoke().toLowerCase());
-
-
-
-
+					
 					writer.append(" AND ");
 					writer.append("illness IS "+rule.getIllness().toLowerCase());
 
@@ -360,11 +335,7 @@ public class generateFuzzyInference extends HttpServlet {
 					if(rule.getMonthlypay().equals("701 - 900"))
 						writer.append("monthlypayment IS veryhigh");
 
-
 					writer.append(" THEN recommend IS "+rule.getRecommend());
-
-
-
 					writer.append(";\n");
 				}
 
@@ -375,11 +346,9 @@ public class generateFuzzyInference extends HttpServlet {
 
 
 			writer.close();
-			//XROKOK
 
 			writer1.append("END_RULEBLOCK\n");
 			writer1.append("END_FUNCTION_BLOCK");
-
 
 			writer1.close();
 
@@ -387,21 +356,12 @@ public class generateFuzzyInference extends HttpServlet {
 			RequestDispatcher rd = null;
 
 			String action=request.getParameter("action");
-			System.out.println("apa action"+action);
 
-
-
-			System.out.println("engine true");
 			request.setAttribute("rule", RulesDA.getAllRule());
 
 			rd = request.getRequestDispatcher("/listRule.jsp");
 			rd.forward(request, response);
-
-
-
-			/*request.getRequestDispatcher("/manageRule").forward(request, response);
-			doGet(request, response);			*/
-
+			
 		} catch(Exception e) {
 			System.out.println("error in writing a file"+e);
 		}

@@ -35,14 +35,11 @@ public class createPackageHandler extends HttpServlet{
 		
 		if(username!=null){
 		if(staff!=null){
-			System.out.println("staff yes");
 			rd = request.getRequestDispatcher("/registerPackageStaff.jsp");
 		}else{
-			System.out.println("staff no");
 			rd = request.getRequestDispatcher("/registerPackageAdmin.jsp");
 		}
 		}else{
-			System.out.println("session invalid");
 			response.sendRedirect("");
 		}
 		rd.forward(request, response);

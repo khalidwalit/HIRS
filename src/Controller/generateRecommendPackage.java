@@ -70,11 +70,15 @@ public class generateRecommendPackage extends HttpServlet {
 		String ageCat = null;
 
 
-		if(age<12){
+		if( age<12 ){
 			ageCat = "YOUNG";
-		}else if(age>12&&age<18){
+		}else if( age>12
+			 && age<18
+			){
 			ageCat = "TEENAGE";
-		}else if(age>18&&age<30){
+		}else if( age>18
+			 && age<30
+			){
 			ageCat = "ADULT";
 		}else if(age>30){
 			ageCat = "OLD";
@@ -197,7 +201,12 @@ public class generateRecommendPackage extends HttpServlet {
 			//System.out.println(ruleNo);
 			rule = (Rules) it.next();
 
-			if(ageCat.equals(rule.getAge()) && c.getJobclass().equals(rule.getJob()) && c.getSmokingStatus().toUpperCase().equals(rule.getSmoke()) &&  c.getClientIllness().toUpperCase().equals(rule.getIllness()) && c.getClientGender().toUpperCase().equals(rule.getGender()) && c.getMonthlypayment().equals(rule.getMonthlypay()) ){
+			if(ageCat.equals(rule.getAge()) 
+			   && c.getJobclass().equals(rule.getJob()) 
+			   && c.getSmokingStatus().toUpperCase().equals(rule.getSmoke()) 
+			   && c.getClientIllness().toUpperCase().equals(rule.getIllness()) 
+			   && c.getClientGender().toUpperCase().equals(rule.getGender()) 
+			   && c.getMonthlypayment().equals(rule.getMonthlypay()) ){
 				if(rule.getQuit()!=null)
 				{
 					if(c.getQuitDuration().equals(rule.getQuit()))
@@ -217,9 +226,20 @@ public class generateRecommendPackage extends HttpServlet {
 		double[] value = new double[3];
 		String[] result = new String[3];
 
-		for(int i=0;i<3;i++){
-			value[i] = fuzzyRecommendValue(quitStat, age, job, smokestat[i], quit[i], illness[i], gend, monthlyPayment[i]);	
-			result[i] = Double.toString(Math.floor(value[i]));
+		for(int i=0; i<3; i++){
+			value[i] = fuzzyRecommendValue(
+				quitStat,
+				age,
+				job,
+				smokestat[i],
+				quit[i],
+				illness[i],
+				gend,
+				monthlyPayment[i]
+			);	
+			result[i] = Double.toString(
+				Math.floor(value[i])
+			);
 		}
 
 		request.setAttribute("RM1", String.format("%.2f",monthlyPayment[0]));
@@ -236,16 +256,26 @@ public class generateRecommendPackage extends HttpServlet {
 		HttpSession sess = request.getSession(false);
 		String name= (String)sess.getAttribute("username");  
 		if(name!=null){
-			request.getRequestDispatcher("/packageRecommend.jsp").forward(request, response);
+			request.getRequestDispatcher("/packageRecommend.jsp")
+				.forward(request, response);
 		}else{
-			request.getRequestDispatcher("/recommandPackage.jsp").forward(request, response);
+			request.getRequestDispatcher("/recommandPackage.jsp")
+				.forward(request, response);
 		}
 
 		//doGet(request, response);
 	}
 
 
-	private double fuzzyRecommendValue(int quitStat,int age,double job,double smokestat,double quit,double illness,int gend,double monthlyPayment){
+	private double fuzzyRecommendValue(int quitStat,
+					   int age,
+					   double job,
+					   double smokestat,
+					   double quit,
+					   double illness,
+					   int gend,
+					   double monthlyPayment)
+	{
 
 		double value = 0;
 		//Define Engine
